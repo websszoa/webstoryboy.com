@@ -1,4 +1,8 @@
-import { PageTitleProps } from "@/lib/types";
+interface PageTitleProps {
+  subtitle: string;
+  title: string;
+  description: string;
+}
 
 export default function PageTitle({
   subtitle,

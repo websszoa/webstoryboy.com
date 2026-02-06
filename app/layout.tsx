@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import "./globals.css";
 import localFont from "next/font/local";
 import MobileNav from "@/components/nav/mobile-nav";
@@ -144,7 +145,9 @@ export default function RootLayout({
               },
             }}
           />
-          <AuthErrorToast />
+          <Suspense fallback={null}>
+            <AuthErrorToast />
+          </Suspense>
           <ThemeProvider attribute="class">{children}</ThemeProvider>
           <MobileNav />
         </SheetProvider>
