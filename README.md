@@ -33,6 +33,7 @@ npx shadcn@latest add dialog
 npx shadcn@latest add avatar
 npx shadcn@latest add select
 npx shadcn@latest add card
+npx shadcn@latest add dropdown-menu
 ```
 
 ## 📝 회원가입 절차

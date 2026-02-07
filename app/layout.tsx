@@ -4,6 +4,7 @@ import "./globals.css";
 import localFont from "next/font/local";
 import MobileNav from "@/components/nav/mobile-nav";
 import AuthErrorToast from "@/components/auth/auth-error-toast";
+import { VisitorCollector } from "@/components/analytics/visitor-collector";
 import { Toaster } from "sonner";
 import { Poppins } from "next/font/google";
 import { SheetProvider } from "@/contexts/sheet-context";
@@ -148,7 +149,10 @@ export default function RootLayout({
           <Suspense fallback={null}>
             <AuthErrorToast />
           </Suspense>
-          <ThemeProvider attribute="class">{children}</ThemeProvider>
+          <ThemeProvider attribute="class">
+            {children}
+            <VisitorCollector />
+          </ThemeProvider>
           <MobileNav />
         </SheetProvider>
       </body>

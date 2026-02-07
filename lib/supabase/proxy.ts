@@ -57,10 +57,10 @@ export async function updateSession(request: NextRequest) {
   if (
     !user &&
     pathname.startsWith("/admin") && // admin만 막기
-    !pathname.startsWith("/admin/login") // 로그인 페이지는 예외(무한루프 방지)
+    !pathname.startsWith("/admin/member")
   ) {
     const url = request.nextUrl.clone();
-    url.pathname = "/admin/login";
+    url.pathname = "/login";
     return NextResponse.redirect(url);
   }
 

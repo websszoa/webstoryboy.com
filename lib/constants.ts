@@ -6,7 +6,7 @@ export const APP_COPYRIGHT = "© 2026 webstoryboy. All rights reserved.";
 
 export const APP_SITE_URL = "https://webstoryboy.com";
 export const APP_KAKAO_URL = "";
-export const APP_INSTAGRAM_URL = "";
+export const APP_INSTAGRAM_URL = "https://www.instagram.com/webstoryboy";
 export const APP_THREADS_URL = "";
 export const APP_GITHUB_URL = "https://github.com/websszoa/webstoryboy.com";
 

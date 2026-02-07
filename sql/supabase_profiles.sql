@@ -141,28 +141,7 @@ CREATE TRIGGER trigger_profiles_updated_at
   FOR EACH ROW
   EXECUTE FUNCTION public.update_updated_at_column();
 
--- ============================================
--- role 컬럼 수정 제한 (관리자만 role 변경 가능)
--- ============================================
-CREATE OR REPLACE FUNCTION public.check_profile_role_change()
-RETURNS TRIGGER AS $$
-BEGIN
-  -- role이 실제로 바뀐 경우에만 검사
-  IF OLD.role IS DISTINCT FROM NEW.role THEN
-    IF (auth.jwt() -> 'app_metadata' ->> 'role') IS DISTINCT FROM 'admin' THEN
-      RAISE EXCEPTION 'role 변경 권한이 없습니다. 관리자만 변경할 수 있습니다.';
-    END IF;
-  END IF;
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER
-SET search_path = public;
 
-DROP TRIGGER IF EXISTS trigger_check_profile_role_change ON public.profiles;
-CREATE TRIGGER trigger_check_profile_role_change
-  BEFORE UPDATE ON public.profiles
-  FOR EACH ROW
-  EXECUTE FUNCTION public.check_profile_role_change();
 
 
 

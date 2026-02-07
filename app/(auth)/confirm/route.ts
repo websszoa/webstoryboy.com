@@ -39,14 +39,21 @@ export async function GET(request: NextRequest) {
         redirect(errorUrl.toString());
       }
 
-      // 2. 방문 횟수 증가
+      // 2. 비밀번호 재설정(recovery) → 새 비밀번호 입력 페이지로
+      if (type === "recovery") {
+        const updatePasswordUrl = new URL("/update-password", request.url);
+        updatePasswordUrl.searchParams.set("verified", "true");
+        redirect(updatePasswordUrl.toString());
+      }
+
+      // 3. 방문 횟수 증가 (회원가입/이메일 인증 등)
       try {
         await supabase.rpc("increment_visit_count");
       } catch (rpcError) {
         console.error("방문 횟수 증가 실패:", rpcError);
       }
 
-      // 3. 성공 파라미터 추가
+      // 4. 성공 파라미터 추가
       redirectUrl.searchParams.set("welcome", "true");
     } else {
       redirectUrl.searchParams.set("error", "confirm_error");

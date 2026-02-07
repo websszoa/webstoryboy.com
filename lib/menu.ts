@@ -15,6 +15,7 @@ import {
   Gamepad2,
   Image,
   Lock,
+  Globe,
 } from "lucide-react";
 
 export interface HeaderMenuItem {
@@ -76,29 +77,23 @@ export const guestMenuItems: MenuItem[] = [
 
 // 관리자 메뉴
 export const adminMenuItems: MenuItem[] = [
-  { icon: Home, label: "대시보드", href: "/admin" },
+  { icon: Home, label: "대시보드", href: "/admin/dashboard" },
   { icon: Cable, label: "회원 관리", href: "/admin/member" },
   { icon: Gamepad2, label: "문의하기", href: "/admin/contact" },
-  { icon: Image, label: "이미지 관리", href: "/admin/images" },
+  { icon: Globe, label: "방문자 환경", href: "/admin/visitors" },
 ];
 
 // 푸터 컬럼 메뉴
 export const footerColumnMenus: FooterColumnMenu[] = [
   {
     title: "페이지",
-    items: [
-      { label: "이미지 생성", href: "/" },
-      { label: "갤러리", href: "/gallery" },
-      { label: "가격보기", href: "/price" },
-    ],
+    items: [{ label: "메인 페이지", href: "/" }],
   },
   {
     title: "서비스",
     items: [
       { label: "공지사항", href: "/notice" },
       { label: "문의하기", href: "/contact" },
-      { label: "인스타그램", href: "/instagram" },
-      { label: "유튜브", href: "/youtube" },
     ],
   },
   {
@@ -106,7 +101,6 @@ export const footerColumnMenus: FooterColumnMenu[] = [
     items: [
       { label: "이용약관", href: "/terms" },
       { label: "개인정보처리방침", href: "/privacy" },
-      { label: "환불 정책", href: "/refund" },
     ],
   },
 ];

@@ -44,6 +44,10 @@ export function translateError(message: string | null | undefined): string {
     "Email rate limit exceeded":
       "너무 많은 요청이 발생했습니다. 잠시 후 다시 시도해주세요.",
     "Signup disabled": "회원가입이 비활성화되어 있습니다.",
+
+    // 비밀번호 변경 관련
+    "New password should be different from the old password.":
+      "새 비밀번호는 기존 비밀번호와 달라야 합니다.",
   };
 
   // 정확한 매칭

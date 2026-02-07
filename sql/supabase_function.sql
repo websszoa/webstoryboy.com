@@ -15,6 +15,8 @@ REVOKE EXECUTE ON FUNCTION public.get_my_account_deleted() FROM PUBLIC;
 -- 로그인한 사용자만 실행 가능
 GRANT EXECUTE ON FUNCTION public.get_my_account_deleted() TO authenticated;
 
+
+
 -- ============================================
 -- 로그인 시 방문 횟수 증가 함수 (visit_count + 1)
 -- ============================================
@@ -38,6 +40,8 @@ REVOKE EXECUTE ON FUNCTION public.increment_visit_count() FROM PUBLIC;
 -- 로그인한 사용자만 실행 가능
 GRANT EXECUTE ON FUNCTION public.increment_visit_count() TO authenticated;
 
+
+
 -- ============================================
 -- 회원 탈퇴 함수 (Soft Delete)
 -- ============================================
@@ -60,3 +64,5 @@ SET search_path = public;
 REVOKE EXECUTE ON FUNCTION public.delete_user_account() FROM PUBLIC;
 -- 로그인한 사용자만 실행 가능
 GRANT EXECUTE ON FUNCTION public.delete_user_account() TO authenticated;
+
+
