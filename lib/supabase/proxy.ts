@@ -2,6 +2,16 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function updateSession(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+  const code = request.nextUrl.searchParams.get("code");
+
+  // OAuth 콜백이 루트(/?code=...)로 올 경우 /callback으로 넘겨서 세션 교환 처리
+  if (pathname === "/" && code) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/callback";
+    return NextResponse.redirect(url);
+  }
+
   // 기본 응답 객체 생성 (이 응답에 Supabase가 쿠키를 넣어줌)
   let supabaseResponse = NextResponse.next({
     request,
@@ -51,8 +61,6 @@ export async function updateSession(request: NextRequest) {
   // -> 이걸 빼면 SSR에서 랜덤 로그아웃 발생 가능
   const { data } = await supabase.auth.getClaims();
   const user = data?.claims;
-
-  const pathname = request.nextUrl.pathname;
 
   if (
     !user &&
