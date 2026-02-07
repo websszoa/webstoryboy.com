@@ -24,6 +24,9 @@ export default async function AdminContactPage() {
   }
 
   const adminSupabase = createServiceRoleClient();
+  if (!adminSupabase) {
+    return <AdminContact initialContacts={[]} />;
+  }
   const { data: contacts } = await adminSupabase
     .from("contacts")
     .select("*")

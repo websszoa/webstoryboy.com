@@ -19,9 +19,9 @@ export default function FooterInfo() {
       </h3>
 
       <div className="font-anyvid text-sm text-muted-foreground leading-6 mb-2">
-        <strong className="block mb-1 text-[15px] text-zinc-800 dark:text-zinc-200">
+        <p className="block mb-1 text-[15px] text-zinc-800 dark:text-zinc-200">
           {APP_SLOGAN}
-        </strong>
+        </p>
         <p className="text-[14px] text-muted-foreground">
           사업자 번호 : {COMPANY_REGISTRATION_NUMBER} . 통신판매업신고 :{" "}
           {COMPANY_ECOMMERCE_REGISTRATION} <br />

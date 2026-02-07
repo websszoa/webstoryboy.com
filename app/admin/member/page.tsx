@@ -24,6 +24,9 @@ export default async function AdminMemberPage() {
   }
 
   const adminSupabase = createServiceRoleClient();
+  if (!adminSupabase) {
+    return <AdminMember initialMembers={[]} />;
+  }
   const { data: profiles } = await adminSupabase
     .from("profiles")
     .select("*")

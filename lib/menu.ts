@@ -13,7 +13,6 @@ import {
   LogIn,
   Cable,
   Gamepad2,
-  Image,
   Lock,
   Globe,
 } from "lucide-react";
@@ -77,7 +76,7 @@ export const guestMenuItems: MenuItem[] = [
 
 // 관리자 메뉴
 export const adminMenuItems: MenuItem[] = [
-  { icon: Home, label: "대시보드", href: "/admin/dashboard" },
+  { icon: Home, label: "대시보드", href: "/admin" },
   { icon: Cable, label: "회원 관리", href: "/admin/member" },
   { icon: Gamepad2, label: "문의하기", href: "/admin/contact" },
   { icon: Globe, label: "방문자 환경", href: "/admin/visitors" },
@@ -86,14 +85,19 @@ export const adminMenuItems: MenuItem[] = [
 // 푸터 컬럼 메뉴
 export const footerColumnMenus: FooterColumnMenu[] = [
   {
-    title: "페이지",
-    items: [{ label: "메인 페이지", href: "/" }],
+    title: "강의 정보",
+    items: [
+      { label: "튜토리얼 사이트 만들기", href: "/lecture/tutorial" },
+      { label: "유튜브 사이트 만들기", href: "/lecture/youtube" },
+    ],
   },
   {
-    title: "서비스",
+    title: "바로가기",
     items: [
-      { label: "공지사항", href: "/notice" },
-      { label: "문의하기", href: "/contact" },
+      { label: "런조아", href: "https://www.runzoa.com/" },
+      { label: "이벤트조아", href: "https://www.eventzoa.com/" },
+      { label: "칼로리조아", href: "https://www.kcalzoa.com/" },
+      { label: "이미지조아", href: "https://www.imagezoa.com/" },
     ],
   },
   {

@@ -116,7 +116,10 @@ export async function POST(request: Request) {
     if (user?.id) userId = user.id;
 
     const adminSupabase = createServiceRoleClient();
-    const { error } = await adminSupabase.from("visitor_environments").insert({
+    if (!adminSupabase) {
+      return NextResponse.json({ ok: true });
+    }
+    const row = {
       user_id: userId,
       ip_address: clientIp,
       country_code: countryCode,
@@ -132,7 +135,11 @@ export async function POST(request: Request) {
       referrer_domain: body.referrer_domain || null,
       screen_width: body.screen_width ?? null,
       screen_height: body.screen_height ?? null,
-    });
+    };
+    const table = adminSupabase.from("visitor_environments") as unknown as {
+      insert: (r: typeof row) => Promise<{ error: { message: string } | null }>;
+    };
+    const { error } = await table.insert(row);
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });

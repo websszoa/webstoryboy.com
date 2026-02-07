@@ -24,24 +24,35 @@ export default async function AdminPage() {
 
   const adminSupabase = createServiceRoleClient();
 
-  const [
-    { count: membersCount },
-    { count: contactsCount },
-    { count: contactsPendingCount },
-  ] = await Promise.all([
-    adminSupabase.from("profiles").select("*", { count: "exact", head: true }),
-    adminSupabase.from("contacts").select("*", { count: "exact", head: true }),
-    adminSupabase
-      .from("contacts")
-      .select("*", { count: "exact", head: true })
-      .eq("status", "pending"),
-  ]);
-
-  const stats = {
-    membersCount: membersCount ?? 0,
-    contactsCount: contactsCount ?? 0,
-    contactsPendingCount: contactsPendingCount ?? 0,
+  let stats = {
+    membersCount: 0,
+    contactsCount: 0,
+    contactsPendingCount: 0,
   };
+
+  if (adminSupabase) {
+    const [
+      { count: membersCount },
+      { count: contactsCount },
+      { count: contactsPendingCount },
+    ] = await Promise.all([
+      adminSupabase
+        .from("profiles")
+        .select("*", { count: "exact", head: true }),
+      adminSupabase
+        .from("contacts")
+        .select("*", { count: "exact", head: true }),
+      adminSupabase
+        .from("contacts")
+        .select("*", { count: "exact", head: true })
+        .eq("status", "pending"),
+    ]);
+    stats = {
+      membersCount: membersCount ?? 0,
+      contactsCount: contactsCount ?? 0,
+      contactsPendingCount: contactsPendingCount ?? 0,
+    };
+  }
 
   return <AdminDashboard stats={stats} />;
 }

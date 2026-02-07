@@ -65,10 +65,18 @@ export async function PATCH(
   }
 
   const adminSupabase = createServiceRoleClient();
-  const { error } = await adminSupabase
-    .from("profiles")
-    .update(updates)
-    .eq("id", id);
+  if (!adminSupabase) {
+    return NextResponse.json({ error: "Service unavailable" }, { status: 503 });
+  }
+  const table = adminSupabase.from("profiles") as unknown as {
+    update: (u: Record<string, unknown>) => {
+      eq: (
+        col: string,
+        val: string,
+      ) => Promise<{ error: { message: string } | null }>;
+    };
+  };
+  const { error } = await table.update(updates).eq("id", id);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

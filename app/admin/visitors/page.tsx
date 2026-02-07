@@ -24,6 +24,9 @@ export default async function AdminVisitorsPage() {
   }
 
   const adminSupabase = createServiceRoleClient();
+  if (!adminSupabase) {
+    return <AdminVisitorEnvironments initialVisitors={[]} />;
+  }
   const { data: rows } = await adminSupabase
     .from("visitor_environments")
     .select("*")

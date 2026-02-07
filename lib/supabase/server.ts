@@ -35,12 +35,14 @@ export async function createClient() {
 
 /**
  * 서버 전용. RLS를 우회하므로 관리자 확인 후에만 사용할 것.
- * SUPABASE_SERVICE_ROLE_KEY 환경 변수 필요.
+ * SUPABASE_SERVICE_ROLE_KEY 환경 변수 필요. 없으면 null 반환 (프로덕션에서 오류 페이지 방지).
  */
-export function createServiceRoleClient() {
+export function createServiceRoleClient(): ReturnType<
+  typeof createSupabaseClient
+> | null {
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!key) {
-    throw new Error("SUPABASE_SERVICE_ROLE_KEY is required for this operation");
+    return null;
   }
   return createSupabaseClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, key, {
     auth: { persistSession: false },
