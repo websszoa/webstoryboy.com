@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
@@ -27,15 +28,32 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
-export function AdminNavUser({
-  user,
-  profile,
-}: {
-  user?: User | null;
-  profile?: Profile | null;
-}) {
+export function AdminNavUser() {
   const { isMobile } = useSidebar();
   const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
+
+  useEffect(() => {
+    const load = async () => {
+      const supabase = createClient();
+      const {
+        data: { user: u },
+      } = await supabase.auth.getUser();
+      setUser(u ?? null);
+      if (u) {
+        const { data: p } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", u.id)
+          .single();
+        setProfile(p ?? null);
+      } else {
+        setProfile(null);
+      }
+    };
+    load();
+  }, []);
 
   const userData = profile
     ? {

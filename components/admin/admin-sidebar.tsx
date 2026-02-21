@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 import * as React from "react";
-import type { User } from "@supabase/supabase-js";
-import type { Profile } from "@/lib/types";
 import { APP_NAME } from "@/lib/constants";
 import { AdminNavMain } from "./admin-nav-main";
 import { AdminNavUser } from "./admin-nav-user";
@@ -17,14 +15,9 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-export function AdminSidebar({
-  user,
-  profile,
-  ...props
-}: React.ComponentProps<typeof Sidebar> & {
-  user?: User | null;
-  profile?: Profile | null;
-}) {
+export function AdminSidebar(
+  props: React.ComponentProps<typeof Sidebar>,
+) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -51,7 +44,7 @@ export function AdminSidebar({
         <AdminNavMain />
       </SidebarContent>
       <SidebarFooter>
-        <AdminNavUser user={user} profile={profile} />
+        <AdminNavUser />
       </SidebarFooter>
     </Sidebar>
   );

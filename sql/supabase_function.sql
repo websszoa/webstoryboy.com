@@ -18,7 +18,7 @@ BEGIN
     ),
     NEW.raw_user_meta_data->>'avatar_url',
     'user',
-    1,
+    0,
     FALSE
   )
   ON CONFLICT (id) DO NOTHING;

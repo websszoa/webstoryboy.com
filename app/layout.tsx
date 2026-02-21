@@ -149,7 +149,9 @@ export default async function RootLayout({
           <Suspense fallback={null}>
             <AuthErrorToast />
           </Suspense>
-          <ThemeProvider attribute="class">{children}</ThemeProvider>
+          <ThemeProvider attribute="class" defaultTheme="light">
+            {children}
+          </ThemeProvider>
         </SheetProvider>
       </body>
     </html>

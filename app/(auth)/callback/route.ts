@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
 
     if (!error) {
       // 1. 탈퇴한 계정인지 확인
-      const { data: isDeleted } = await supabase.rpc("is_my_account_deleted");
+      const { data: isDeleted } = await supabase.rpc("get_my_account_deleted");
       if (isDeleted === true) {
         await supabase.auth.signOut();
         const deletedUrl = new URL("/", baseUrl);
@@ -33,9 +33,19 @@ export async function GET(request: NextRequest) {
         return NextResponse.redirect(deletedUrl);
       }
 
-      // 2. 방문 횟수 증가
+      // 2. 방문 횟수 증가 (OAuth 재방문 시에만, 방금 가입한 경우는 프로필에 이미 1로 있으므로 제외)
       try {
-        await supabase.rpc("increment_visit_count");
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("created_at")
+          .single();
+        const createdAt = profile?.created_at
+          ? new Date(profile.created_at).getTime()
+          : 0;
+        const isNewSignup = Date.now() - createdAt < 2 * 60 * 1000; // 2분 이내 생성
+        if (!isNewSignup) {
+          await supabase.rpc("increment_visit_count");
+        }
       } catch (rpcError) {
         console.error("방문 횟수 증가 실패:", rpcError);
       }

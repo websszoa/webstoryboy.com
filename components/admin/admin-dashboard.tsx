@@ -16,8 +16,8 @@ interface AdminDashboardProps {
 
 export default function AdminDashboard({ stats }: AdminDashboardProps) {
   return (
-    <div className="md:p-6 md:space-y-8 p-4 space-y-6">
-      {/* 헤더 */}
+    <div className="md:p-6 md:space-y-6 p-4 space-y-4">
+      {/* Header */}
       <div>
         <h1 className="text-2xl font-semibold font-paperlogy flex items-center gap-2">
           대시보드
@@ -27,7 +27,7 @@ export default function AdminDashboard({ stats }: AdminDashboardProps) {
         </p>
       </div>
 
-      {/* 통계 카드 */}
+      {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-white border rounded-lg p-5">
           <div className="flex items-center gap-3">

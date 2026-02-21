@@ -5,12 +5,13 @@ import { revalidatePath } from "next/cache";
 
 export async function updateMemberByAdmin(params: {
   id: string;
+  full_name: string | null;
   role: string;
   visit_count: number;
   is_deleted: boolean;
   created_at: string | null;
 }) {
-  const { id, role, visit_count, is_deleted, created_at } = params;
+  const { id, full_name, role, visit_count, is_deleted, created_at } = params;
 
   const supabase = await createClient();
   const {
@@ -36,6 +37,7 @@ export async function updateMemberByAdmin(params: {
 
   const deletedAt = is_deleted ? new Date().toISOString() : null;
   const updatePayload = {
+    full_name: full_name?.trim() || null,
     role: role === "admin" ? "admin" : "user",
     visit_count: Math.max(0, visit_count),
     is_deleted,
@@ -49,7 +51,7 @@ export async function updateMemberByAdmin(params: {
     // @ts-expect-error - DB 타입 미생성 시 update 인자가 never로 추론됨
     .update(updatePayload)
     .eq("id", id)
-    .select("role, visit_count, is_deleted, created_at")
+    .select("full_name, role, visit_count, is_deleted, created_at")
     .single();
 
   if (error) {
@@ -60,6 +62,7 @@ export async function updateMemberByAdmin(params: {
   revalidatePath("/admin/member");
 
   const row = data as {
+    full_name: string | null;
     role: string | null;
     visit_count: number;
     is_deleted: boolean;
@@ -67,6 +70,7 @@ export async function updateMemberByAdmin(params: {
   };
 
   return {
+    full_name: row.full_name,
     role: row.role,
     visit_count: row.visit_count,
     is_deleted: row.is_deleted,

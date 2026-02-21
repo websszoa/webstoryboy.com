@@ -5,7 +5,6 @@ import { useEffect, useMemo, useState, useTransition } from "react";
 import type { Profile } from "@/lib/types";
 import { toast } from "sonner";
 import { updateMemberByAdmin } from "@/lib/actions/member";
-import { formatDate } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -36,6 +35,7 @@ export default function DialogMemberEdit({
   member,
   onSaved,
 }: DialogMemberEditProps) {
+  const [fullName, setFullName] = useState("");
   const [role, setRole] = useState("user");
   const [visitCount, setVisitCount] = useState(0);
   const [isDeleted, setIsDeleted] = useState(false);
@@ -44,7 +44,8 @@ export default function DialogMemberEdit({
 
   useEffect(() => {
     if (!open || !member) return;
-    setRole(member.role);
+    setFullName(member.full_name ?? "");
+    setRole(member.role ?? "user");
     setVisitCount(member.visit_count);
     setIsDeleted(member.is_deleted);
     setCreatedAt(
@@ -65,12 +66,13 @@ export default function DialogMemberEdit({
   const isChanged = useMemo(() => {
     if (!member) return false;
     return (
-      role !== member.role ||
+      (fullName ?? "") !== (member.full_name ?? "") ||
+      role !== (member.role ?? "user") ||
       visitCount !== member.visit_count ||
       isDeleted !== member.is_deleted ||
       createdAt !== memberCreatedAtYmd
     );
-  }, [createdAt, isDeleted, member, memberCreatedAtYmd, role, visitCount]);
+  }, [createdAt, fullName, isDeleted, member, memberCreatedAtYmd, role, visitCount]);
 
   const handleSave = () => {
     if (!member || !isChanged) return;
@@ -83,6 +85,7 @@ export default function DialogMemberEdit({
 
         const result = await updateMemberByAdmin({
           id: member.id,
+          full_name: fullName.trim() || null,
           role,
           visit_count: visitCount,
           is_deleted: isDeleted,
@@ -91,6 +94,7 @@ export default function DialogMemberEdit({
 
         onSaved?.({
           ...member,
+          full_name: result.full_name,
           role: result.role,
           visit_count: result.visit_count,
           is_deleted: result.is_deleted,
@@ -115,7 +119,7 @@ export default function DialogMemberEdit({
         <DialogHeader className="border-b pb-4">
           <DialogTitle className="text-brand">회원 상세/수정</DialogTitle>
           <DialogDescription>
-            가입일, 역할, 방문, 상태를 수정한 뒤 저장할 수 있습니다.
+            이름, 가입일, 역할, 방문, 상태를 수정한 뒤 저장할 수 있습니다.
           </DialogDescription>
         </DialogHeader>
 
@@ -132,7 +136,7 @@ export default function DialogMemberEdit({
           </div>
           <div className="min-w-0 flex-1">
             <p className="text-xl text-slate-900 font-medium">
-              {member?.full_name ?? "-"}
+              {(fullName || member?.full_name) ?? "-"}
             </p>
             <p className="text-sm text-muted-foreground">
               {member?.email ?? "-"}
@@ -140,8 +144,20 @@ export default function DialogMemberEdit({
           </div>
         </div>
 
-        {/* 수정 영역: 가입일 / 역할 / 방문 / 상태 */}
+        {/* 수정 영역: 이름 / 가입일 / 역할 / 방문 / 상태 */}
         <div className="space-y-3 font-anyvid text-muted-foreground border-t pt-4">
+          <div className="space-y-2">
+            <p className="text-sm text-slate-900">이름</p>
+            <Input
+              type="text"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              placeholder="이름 입력"
+              maxLength={18}
+              disabled={!member || isPending}
+            />
+          </div>
+
           <div className="space-y-2">
             <p className="text-sm text-slate-900">가입일</p>
             <Input
