@@ -54,6 +54,7 @@ export function SignUpForm() {
         options: {
           emailRedirectTo: `${window.location.origin}/callback`,
           data: {
+            full_name: displayName,
             display_name: displayName,
             avatar_url: avatarUrl,
           },

@@ -15,15 +15,15 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-interface DialogDeleteAccountProps {
+interface DialogProfileDeleteProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export default function DialogDeleteAccount({
+export default function DialogProfileDelete({
   open,
   onOpenChange,
-}: DialogDeleteAccountProps) {
+}: DialogProfileDeleteProps) {
   const router = useRouter();
   const supabase = createClient();
   const [isLoading, setIsLoading] = useState(false);
@@ -40,8 +40,8 @@ export default function DialogDeleteAccount({
         return;
       }
 
-      // RLS 우회: SECURITY DEFINER 함수로 Soft Delete 수행 (sql/supabase_profiles.sql)
-      const { error: rpcError } = await supabase.rpc("delete_user_account");
+      // RLS 우회: SECURITY DEFINER 함수로 Soft Delete 수행 (sql/supabase_function.sql - soft_delete_account)
+      const { error: rpcError } = await supabase.rpc("soft_delete_account");
 
       if (rpcError) {
         throw rpcError;

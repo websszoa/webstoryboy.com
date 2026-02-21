@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import "./globals.css";
 import localFont from "next/font/local";
-import MobileNav from "@/components/nav/mobile-nav";
+import Splash from "@/components/splash/splash";
+import AuthErrorToast from "@/components/auth/auth-error-toast";
 import { Toaster } from "sonner";
 import { Poppins } from "next/font/google";
 import { SheetProvider } from "@/contexts/sheet-context";
@@ -123,7 +125,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -134,6 +136,7 @@ export default function RootLayout({
         className={`${poppins.variable} ${anyvid.variable} ${nanumSquare.variable} ${paperlogy.variable}`}
       >
         <SheetProvider>
+          <Splash />
           <Toaster
             position="top-center"
             toastOptions={{
@@ -143,8 +146,10 @@ export default function RootLayout({
               },
             }}
           />
+          <Suspense fallback={null}>
+            <AuthErrorToast />
+          </Suspense>
           <ThemeProvider attribute="class">{children}</ThemeProvider>
-          <MobileNav />
         </SheetProvider>
       </body>
     </html>

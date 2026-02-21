@@ -26,6 +26,7 @@ import {
 export default function PageContact() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const supabase = createClient();
@@ -34,7 +35,8 @@ export default function PageContact() {
     supabase.auth.getSession().then(({ data: { session } }) => {
       const loggedIn = !!session?.user;
       setIsLoggedIn(loggedIn);
-      setUserId(session?.user?.id || null);
+      setUserId(session?.user?.id ?? null);
+      setUserEmail(session?.user?.email ?? null);
       if (!loggedIn) setShowForm(false);
     });
   }, [supabase.auth]);
@@ -47,7 +49,7 @@ export default function PageContact() {
   });
 
   const onSubmit = async (data: ContactFormValues) => {
-    if (!userId) {
+    if (!userId || !userEmail) {
       toast.error("로그인이 필요합니다.");
       return;
     }
@@ -55,6 +57,7 @@ export default function PageContact() {
     try {
       const { error } = await supabase.from("contacts").insert({
         user_id: userId,
+        user_email: userEmail,
         message: data.message,
         status: "pending",
       });
@@ -166,7 +169,7 @@ export default function PageContact() {
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-4"
+                  className="space-y-4 w-full"
                 >
                   <FormField
                     control={form.control}
@@ -192,7 +195,7 @@ export default function PageContact() {
 
                   <div className="flex gap-2">
                     <Button
-                      type="button"
+                      size="lg"
                       variant="outline"
                       className="font-anyvid flex-1"
                       onClick={() => setShowForm(false)}
@@ -200,7 +203,6 @@ export default function PageContact() {
                       취소
                     </Button>
                     <Button
-                      type="submit"
                       size="lg"
                       className="flex-1 font-anyvid bg-brand text-white hover:bg-brand/90"
                       disabled={!isLoggedIn || form.formState.isSubmitting}

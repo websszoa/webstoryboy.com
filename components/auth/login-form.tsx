@@ -50,7 +50,7 @@ export function LoginForm() {
       if (error) throw error;
 
       // 탈퇴 계정이면 로그인 차단
-      const { data: isDeleted } = await supabase.rpc("get_my_account_deleted");
+      const { data: isDeleted } = await supabase.rpc("is_my_account_deleted");
       if (isDeleted === true) {
         await supabase.auth.signOut();
         toast.error("탈퇴한 계정입니다. 관리자에게 문의해주세요.");

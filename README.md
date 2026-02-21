@@ -43,6 +43,7 @@ app/
 npx create-next-app@latest ./                          # Next.js 프로젝트 생성
 npm install @supabase/supabase-js @supabase/ssr        # Supabase 클라이언트 & Supabase SSR 지원
 npm install next-themes                                # 다크모드 테마 지원
+npm install resend                                     # 메일보내기
 npx shadcn@latest init                                 # shadcn/ui 초기화
 npx shadcn@latest add button
 npx shadcn@latest add sonner
@@ -68,31 +69,25 @@ npx shadcn@latest add carousel
 
 ## 🛠 사용 도구 / 라이브러리
 
-### 프레임워크 & 런타임
+### 🧠 Built With
 
-- **Next.js** 16 — React 풀스택 프레임워크 (App Router)
-- **React** 19 — UI 라이브러리
-- **TypeScript** — 정적 타입
+- Next.js 16 (App Router + React 19)
+- TypeScript (정적 타입)
+- Supabase (인증 · DB · Storage)
+- Vercel (배포)
+- GitHub (저장소 · CI/CD)
+- Tailwind CSS + shadcn/ui (스타일 · UI 컴포넌트)
+- lucide-react (아이콘)
+- next-themes (다크/라이트 테마)
+- react-hook-form + @hookform/resolvers + zod (폼 · 검증)
+- Resend (이메일 발송)
 
-### 백엔드 / 인증
+### 📎 유용한 링크
 
-- **@supabase/supabase-js** — Supabase 클라이언트 (DB, Auth, Storage)
-- **@supabase/ssr** — Supabase SSR·미들웨어 연동
-
-### UI / 컴포넌트
-
-- **Tailwind CSS** — 유틸리티 CSS
-- **shadcn/ui** (Radix UI) — 접근성 기반 UI 컴포넌트 (버튼, 폼, 다이얼로그 등)
-- **lucide-react** — 아이콘
-- **next-themes** — 다크/라이트 테마 전환
-
-### 폼 & 검증
-
-- **react-hook-form** — 폼 상태·제출 처리
-- **@hookform/resolvers** — react-hook-form ↔ Zod 연동
-- **zod** — 스키마 검증
-
-### 배포 & 버전 관리
-
-- **Vercel** — 정적·서버리스 배포, 프리뷰, 도메인·환경 변수 관리
-- **GitHub** — 소스 저장소, 이슈·PR, GitHub Actions(CI/CD)
+- Next.js → https://nextjs.org/
+- Supabase → https://supabase.com/
+- Vercel → https://vercel.com/
+- GitHub → https://github.com/
+- Tailwind CSS → https://tailwindcss.com/
+- shadcn/ui → https://ui.shadcn.com/
+- Resend → https://resend.com/

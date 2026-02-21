@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
 
     if (!error) {
       // 1. 탈퇴한 계정인지 확인
-      const { data: isDeleted } = await supabase.rpc("get_my_account_deleted");
+      const { data: isDeleted } = await supabase.rpc("is_my_account_deleted");
 
       if (isDeleted === true) {
         await supabase.auth.signOut();

@@ -79,7 +79,6 @@ export const adminMenuItems: MenuItem[] = [
   { icon: Home, label: "대시보드", href: "/admin" },
   { icon: Cable, label: "회원 관리", href: "/admin/member" },
   { icon: Gamepad2, label: "문의하기", href: "/admin/contact" },
-  { icon: Globe, label: "방문자 환경", href: "/admin/visitors" },
 ];
 
 // 푸터 컬럼 메뉴

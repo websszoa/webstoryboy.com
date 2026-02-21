@@ -24,7 +24,7 @@ import {
 
 import DialogProfileImage from "@/components/dialog/dialog-profile-image";
 import DialogProfileName from "@/components/dialog/dialog-profile-name";
-import DialogDeleteAccount from "@/components/dialog/dialog-delete-account";
+import DialogProfileDelete from "@/components/dialog/dialog-profile-delete";
 
 interface PageProfileProps {
   profile: Profile | null;
@@ -163,7 +163,7 @@ export default function PageProfile({ profile }: PageProfileProps) {
         currentName={profile?.full_name ?? undefined}
       />
 
-      <DialogDeleteAccount
+      <DialogProfileDelete
         open={deleteAccountOpen}
         onOpenChange={setDeleteAccountOpen}
       />

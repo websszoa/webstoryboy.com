@@ -70,8 +70,9 @@ export interface VisitorEnvironment {
 export interface Contact {
   id: string;
   user_id: string;
+  user_email: string;
   message: string;
-  status: "pending" | "in_progress" | "resolved" | "closed";
+  status: "pending" | "progress" | "resolved" | "closed";
   admin_reply: string | null;
   admin_id: string | null;
   created_at: string;

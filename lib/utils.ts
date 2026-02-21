@@ -5,6 +5,14 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+/** KST 기준 오늘 날짜 문자열 (YYYY-MM-DD). 서버/클라이언트 공용. */
+export function getKSTDateString(): string {
+  const now = new Date();
+  const utcMs = now.getTime() + now.getTimezoneOffset() * 60_000;
+  const kst = new Date(utcMs + 9 * 60 * 60_000);
+  return kst.toISOString().slice(0, 10);
+}
+
 /** 이미지 랜덤 경로 반환 */
 export function getRandomFaceImage(): string {
   const num = Math.floor(Math.random() * 10) + 1;
