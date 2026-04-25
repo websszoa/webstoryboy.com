@@ -13,8 +13,7 @@ export default function MainTitle() {
         {APP_ENG_NAME}
       </span>
       <h2 className="py-1 md:py-2 text-slate-900 dark:text-white text-2xl md:text-3xl font-anyvid leading-[1.4]">
-        실제로 구현하며, 배우는 개발 경험 이야기.
-        <br />
+        <span className="hidden md:inline">실제로 구현하며, 배우는 개발 경험 이야기.<br /></span>
         {APP_SLOGAN}
       </h2>
       <p className="text-sm text-muted-foreground font-anyvid">
