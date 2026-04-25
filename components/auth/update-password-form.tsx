@@ -1,0 +1,84 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { translateError } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/client";
+import { UpdatePasswordFormValues } from "@/lib/types";
+import { updatePasswordSchema } from "@/lib/validations";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Field, FieldLabel, FieldError } from "@/components/ui/field";
+
+export function UpdatePasswordForm() {
+  const router = useRouter();
+
+  const form = useForm<UpdatePasswordFormValues>({
+    resolver: zodResolver(updatePasswordSchema),
+    defaultValues: {
+      password: "",
+    },
+  });
+
+  const onSubmit = async (data: UpdatePasswordFormValues) => {
+    const supabase = createClient();
+
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: data.password,
+      });
+
+      if (error) throw error;
+
+      await supabase.auth.signOut();
+      toast.success("비밀번호가 변경되었습니다. 새 비밀번호로 로그인해주세요.");
+      router.refresh();
+      router.push("/login");
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "에러 발생";
+      const translatedError = translateError(errorMessage);
+      toast.error(translatedError);
+    }
+  };
+
+  return (
+    <div className="border rounded-2xl p-4 md:p-6">
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="flex flex-col gap-6">
+          <Controller
+            control={form.control}
+            name="password"
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="password">
+                  새로운 비밀번호<span className="star">*</span>
+                </FieldLabel>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="비밀번호를 입력해주세요!"
+                  aria-invalid={fieldState.invalid}
+                  {...field}
+                />
+                <FieldError errors={[fieldState.error]} />
+              </Field>
+            )}
+          />
+
+          <Button
+            type="submit"
+            size="lg"
+            className="w-full"
+            disabled={form.formState.isSubmitting}
+          >
+            {form.formState.isSubmitting
+              ? "저장중..."
+              : "새로운 비밀번호 저장하기"}
+          </Button>
+        </div>
+      </form>
+    </div>
+  );
+}
