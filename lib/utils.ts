@@ -17,7 +17,12 @@ export function getKSTDateString(): string {
 export function getRandomFaceImage(): string {
   const num = Math.floor(Math.random() * 10) + 1;
   const name = num < 10 ? `face0${num}` : `face${num}`;
-  return `/face/${name}.png`;
+  return `/face/${name}.webp`;
+}
+
+/** avatar_url의 .png → .webp 변환 (DB에 구버전 경로가 저장된 경우 대응) */
+export function normalizeAvatarUrl(url: string | null | undefined, fallback = "/face/face01.webp"): string {
+  return (url || fallback).replace(/\/face\/(face\d+)\.png$/, "/face/$1.webp");
 }
 
 /** ISO 날짜 문자열을 "YYYY-MM-DD" 형식으로 변환합니다. */

@@ -4,7 +4,8 @@ import Image from "next/image";
 import { useEffect, useMemo, useState, useTransition } from "react";
 import type { Profile } from "@/lib/types";
 import { toast } from "sonner";
-import { updateMemberByAdmin } from "@/lib/actions/member";
+import { updateMemberByAdmin, deleteMemberByAdmin } from "@/lib/actions/member";
+import { normalizeAvatarUrl } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -86,6 +87,23 @@ export default function DialogMemberEdit({
     visitCount,
   ]);
 
+  const handleDelete = () => {
+    if (!member) return;
+    if (!confirm(`"${member.full_name}" 회원을 영구 삭제하시겠습니까?`)) return;
+
+    startTransition(async () => {
+      try {
+        await deleteMemberByAdmin(member.id);
+        toast.success("회원이 삭제되었습니다.");
+        onOpenChange(false);
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : "삭제 중 오류가 발생했습니다.";
+        toast.error(message);
+      }
+    });
+  };
+
   const handleSave = () => {
     if (!member || !isChanged) return;
 
@@ -131,7 +149,9 @@ export default function DialogMemberEdit({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader className="border-b pb-4">
-          <DialogTitle className="text-brand">회원 상세/수정</DialogTitle>
+          <DialogTitle className="text-xl font-paperlogy font-semibold text-brand">
+            회원 상세/수정
+          </DialogTitle>
           <DialogDescription>
             가입일, 역할, 방문, 상태를 수정한 뒤 저장할 수 있습니다.
           </DialogDescription>
@@ -141,7 +161,7 @@ export default function DialogMemberEdit({
         <div className="flex items-center gap-4 font-anyvid">
           <div className="shrink-0 w-16 h-16 rounded-full overflow-hidden bg-gray-100">
             <Image
-              src={member?.avatar_url || "/face/face01.webp"}
+              src={normalizeAvatarUrl(member?.avatar_url)}
               alt={member?.full_name || "프로필"}
               width={64}
               height={64}
@@ -247,21 +267,30 @@ export default function DialogMemberEdit({
           </div>
         </div>
 
-        <div className="mt-4 flex justify-end gap-2">
+        <div className="mt-4 flex justify-between gap-2">
           <Button
-            variant="outline"
-            onClick={() => onOpenChange(false)}
-            disabled={isPending}
+            variant="destructive"
+            onClick={handleDelete}
+            disabled={!member || isPending}
           >
-            닫기
+            삭제
           </Button>
-          <Button
-            onClick={handleSave}
-            className="bg-brand text-white hover:bg-brand/90"
-            disabled={!member || !isChanged || isPending}
-          >
-            {isPending ? "저장 중..." : "저장"}
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+              disabled={isPending}
+            >
+              닫기
+            </Button>
+            <Button
+              onClick={handleSave}
+              className="bg-brand text-white hover:bg-brand/90"
+              disabled={!member || !isChanged || isPending}
+            >
+              {isPending ? "저장 중..." : "저장"}
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

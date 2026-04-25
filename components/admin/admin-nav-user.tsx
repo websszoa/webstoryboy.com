@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
+import { normalizeAvatarUrl } from "@/lib/utils";
 import type { Profile } from "@/lib/types";
 import {
   Bell,
@@ -80,7 +81,7 @@ export function AdminNavUser() {
               {profile?.avatar_url ? (
                 <div className="relative w-9 h-9 rounded-full overflow-hidden bg-muted shrink-0">
                   <img
-                    src={profile.avatar_url}
+                    src={normalizeAvatarUrl(profile.avatar_url)}
                     alt={displayName}
                     className="h-full w-full object-cover bg-brand/10"
                     referrerPolicy="no-referrer"

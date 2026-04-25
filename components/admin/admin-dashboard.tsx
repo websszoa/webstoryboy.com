@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Users, MessageSquare } from "lucide-react";
 import { Profile, Contact } from "@/lib/types";
-import { formatDate } from "@/lib/utils";
+import { formatDate, normalizeAvatarUrl } from "@/lib/utils";
 
 interface AdminDashboardProps {
   members: Profile[];
@@ -183,7 +183,7 @@ export default function AdminDashboard({
                 >
                   <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-100 shrink-0">
                     <Image
-                      src={member.avatar_url || "/face/face01.webp"}
+                      src={normalizeAvatarUrl(member.avatar_url)}
                       alt={member.full_name || "프로필"}
                       width={32}
                       height={32}

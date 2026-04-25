@@ -64,6 +64,7 @@ export async function updateMemberByAdmin(payload: UpdateMemberPayload) {
   }
 
   revalidatePath("/admin/member");
+  revalidatePath("/admin");
 
   const result: {
     full_name?: string;
@@ -81,4 +82,36 @@ export async function updateMemberByAdmin(payload: UpdateMemberPayload) {
     created_at: payload.created_at,
   };
   return result;
+}
+
+export async function deleteMemberByAdmin(id: string) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+    throw new Error("로그인이 필요합니다.");
+  }
+
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  if (profileError || profile?.role !== "admin") {
+    throw new Error("관리자 권한이 필요합니다.");
+  }
+
+  const { error } = await supabaseAdmin.auth.admin.deleteUser(id);
+
+  if (error) {
+    throw new Error("회원 삭제에 실패했습니다.");
+  }
+
+  revalidatePath("/admin/member");
+  revalidatePath("/admin");
 }

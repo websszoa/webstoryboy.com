@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { Profile } from "@/lib/types";
-import { formatDate } from "@/lib/utils";
+import { formatDate, normalizeAvatarUrl } from "@/lib/utils";
 import { MessageSquareCode, Eye, Mail } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -123,7 +123,7 @@ export default function AdminMember({ members }: { members: Profile[] }) {
                   <TableCell>
                     <div className="w-9 h-9 rounded-full overflow-hidden bg-gray-100 mx-auto">
                       <Image
-                        src={member.avatar_url || "/face/face01.webp"}
+                        src={normalizeAvatarUrl(member.avatar_url)}
                         alt={member.full_name || "프로필"}
                         width={40}
                         height={40}
