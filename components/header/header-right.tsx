@@ -27,9 +27,10 @@ export default function HeaderRight({ user, profile }: HeaderRightProps) {
         <SheetTrigger asChild>
           <Button
             variant="outline"
+            aria-label="메뉴 열기"
             className="mr-2 w-10 h-10 rounded-full dark:bg-black dark:border-white/20 dark:hover:bg-black dark:hover:border-white dark:text-white"
           >
-            <Coffee />
+            <Coffee aria-hidden="true" />
           </Button>
         </SheetTrigger>
         <SheetContent>

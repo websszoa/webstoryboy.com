@@ -234,11 +234,11 @@
   }
 
   .tutorial-prose strong {
-    @apply text-gray-800 dark:text-gray-200;
+    @apply text-gray-900 dark:text-gray-200 font-normal;
   }
 
   .tutorial-prose em {
-    @apply not-italic underline underline-offset-4 font-normal text-gray-800 dark:text-gray-200;
+    @apply not-italic underline underline-offset-4 decoration-gray-800 dark:decoration-gray-200 font-normal text-gray-800 dark:text-gray-200;
   }
 
   .tutorial-prose blockquote {

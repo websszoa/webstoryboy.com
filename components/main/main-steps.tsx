@@ -43,9 +43,9 @@ export default function MainSteps() {
                     {step.subtitle}
                   </span>
                 </div>
-                <h4 className="mt-2.5 text-lg md:text-xl font-anyvid text-foreground">
+                <h3 className="mt-2.5 text-lg md:text-xl font-anyvid text-foreground">
                   {step.title}
-                </h4>
+                </h3>
                 <p className="mt-2 flex-1 line-clamp-3 text-sm leading-relaxed text-muted-foreground font-nanumNeo">
                   {step.description}
                 </p>

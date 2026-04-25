@@ -14,6 +14,7 @@ import {
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -25,7 +26,7 @@ interface TutorialSidebarProps {
 
 function CourseTitle({ course, total }: { course: CourseId; total: number }) {
   return (
-    <div className="px-4 pt-5 pb-4 border-b border-gray-100 dark:border-white/10">
+    <div className="px-1 pt-5 pb-4 border-b border-gray-100 dark:border-white/10">
       <span className="text-xs uppercase tracking-[0.3em] text-red-600 dark:text-dark-brand font-poppins">
         Tutorial
       </span>
@@ -61,7 +62,7 @@ function NavList({
             href={href}
             onClick={onLinkClick}
             className={cn(
-              "flex items-start gap-2.5 px-4 pt-2 pb-1.5 text-sm transition-all font-anyvid",
+              "flex items-start gap-2.5 px-1 pt-2 pb-1.5 text-sm transition-all font-anyvid",
               isActive
                 ? "border-l-red-500 dark:border-l-dark-brand bg-red-50/60 dark:bg-dark-brand/5 text-red-600 dark:text-dark-brand"
                 : "border-l-transparent text-muted-foreground hover:border-l-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white",
@@ -92,7 +93,7 @@ export default function TutorialSidebar({ course }: TutorialSidebarProps) {
   return (
     <>
       {/* 데스크톱 사이드바 */}
-      <aside className="sticky top-0 self-start hidden h-dvh w-58 shrink-0 overflow-hidden border-r border-gray-200 dark:border-white/10 md:flex md:flex-col">
+      <aside className="sticky top-0 self-start hidden h-dvh w-[240px] shrink-0 overflow-hidden border-r border-gray-200 dark:border-white/10 md:flex md:flex-col">
         <CourseTitle course={course} total={docs.length} />
         <ScrollArea className="min-h-0 flex-1">
           <div className="py-2">
@@ -102,7 +103,7 @@ export default function TutorialSidebar({ course }: TutorialSidebarProps) {
       </aside>
 
       {/* 모바일 사이드바 (Sheet) */}
-      <div className="md:hidden fixed bottom-20 right-4 z-50">
+      <div className="md:hidden fixed bottom-20 left-4 z-50">
         <Sheet>
           <SheetTrigger asChild>
             <Button
@@ -113,13 +114,16 @@ export default function TutorialSidebar({ course }: TutorialSidebarProps) {
               <Menu className="w-5 h-5" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-72 p-0">
+          <SheetContent side="left" className="w-72 p-0 flex flex-col">
             <SheetHeader>
               <SheetTitle className="sr-only">강의 목록</SheetTitle>
+              <SheetDescription className="sr-only">
+                현재 튜토리얼 강의 목록과 이동 가능한 문서 목록입니다.
+              </SheetDescription>
               <CourseTitle course={course} total={docs.length} />
             </SheetHeader>
-            <ScrollArea className="h-[calc(100vh-7rem)]">
-              <div className="py-2">
+            <ScrollArea className="flex-1">
+              <div className="py-2 mx-4">
                 <NavList course={course} docs={docs} pathname={pathname} />
               </div>
             </ScrollArea>

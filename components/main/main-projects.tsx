@@ -8,6 +8,7 @@ const projects = [
     description:
       "국내 마라톤·달리기 대회 일정을 한눈에 확인할 수 있는 정보 플랫폼입니다. 대회 검색, 즐겨찾기, 리뷰 기능을 직접 구현하며 배웁니다.",
     level: "준비중",
+    // href: "#",
     href: "/tutorial/runzoa/getting-started-with-marathon",
     skills: [
       { src: "/svg/nextjs.svg", alt: "Next.js" },

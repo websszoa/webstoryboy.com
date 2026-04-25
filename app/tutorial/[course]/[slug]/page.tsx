@@ -65,7 +65,7 @@ export default async function TutorialDocPage({
   const nextDoc =
     currentIndex < docs.length - 1 ? docs[currentIndex + 1] : null;
   return (
-    <div className="flex gap-8 p-4 md:p-6 px-8 lg:px-10 lg:pr-0">
+    <div className="flex gap-8 p-4 md:p-6 px-0 lg:px-10 lg:pr-0">
       <article className="min-w-0 flex-1 py-0">
         <div className="tutorial-prose">
           <Suspense
@@ -91,9 +91,9 @@ export default async function TutorialDocPage({
           {prevDoc ? (
             <Link
               href={`/tutorial/${course}/${prevDoc.slug}`}
-              className="flex-1 flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-3 text-sm hover:border-brand/50 hover:bg-gray-50 transition-colors group"
+              className="flex-1 flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-3 text-sm hover:shadow-md hover:border-red-500 transition-shadow group"
             >
-              <ChevronLeft className="w-4 h-4 shrink-0 text-muted-foreground group-hover:text-brand transition-colors" />
+              <ChevronLeft className="w-4 h-4 shrink-0 text-muted-foreground group-hover:text-red-500 transition-colors" />
               <div className="min-w-0">
                 <p className="text-xs text-muted-foreground mb-0.5">이전</p>
                 <p className="font-medium truncate">{prevDoc.title}</p>
@@ -106,20 +106,20 @@ export default async function TutorialDocPage({
           {nextDoc ? (
             <Link
               href={`/tutorial/${course}/${nextDoc.slug}`}
-              className="flex-1 flex items-center justify-end gap-2 rounded-lg border border-gray-200 px-4 py-3 text-sm hover:border-brand/50 hover:bg-gray-50 transition-colors group text-right"
+              className="flex-1 flex items-center justify-end gap-2 rounded-lg border border-gray-200 px-4 py-3 text-sm hover:shadow-md hover:border-red-500 transition-shadow group text-right"
             >
               <div className="min-w-0">
                 <p className="text-xs text-muted-foreground mb-0.5">다음</p>
                 <p className="font-medium truncate">{nextDoc.title}</p>
               </div>
-              <ChevronRight className="w-4 h-4 shrink-0 text-muted-foreground group-hover:text-brand transition-colors" />
+              <ChevronRight className="w-4 h-4 shrink-0 text-muted-foreground group-hover:text-red-500 transition-colors" />
             </Link>
           ) : (
             <div className="flex-1" />
           )}
         </nav>
       </article>
-      <TutorialToc toc={doc.toc} />
+      <TutorialToc toc={doc.toc} course={course} />
     </div>
   );
 }
