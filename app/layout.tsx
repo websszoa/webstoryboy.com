@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Image from "next/image";
+import Script from "next/script";
 import localFont from "next/font/local";
 import { Poppins } from "next/font/google";
 import "./globals.css";
@@ -158,6 +159,18 @@ export default async function RootLayout({
             {APP_SLOGAN}
           </span>
         </div>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-ZNL7V3PFLR"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-ZNL7V3PFLR');
+          `}
+        </Script>
         <SheetProvider>
           <Toaster
             position="top-center"
